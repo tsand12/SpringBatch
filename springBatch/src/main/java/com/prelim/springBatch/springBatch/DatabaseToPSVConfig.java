@@ -39,8 +39,7 @@ import java.sql.SQLException;
 //https://www.jackrutorial.com/2018/03/spring-boot-batch-read-from-mysql-database-and-write-into-a-csv-file-tutorial.html
 
 @Configuration
-@EnableBatchProcessing
-@Import(DataSourceAutoConfiguration.class)
+
 public class DatabaseToPSVConfig {
 
     @Autowired
