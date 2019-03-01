@@ -1,24 +1,28 @@
 package com.prelim.springBatch.springBatch;
 
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
 
     private Long id;
 
-    private String firstName;
+    private String first_name;
 
-    private String lastName;
+    private String last_name;
     // private String authToken;
 
     private int age;
     //private Date birthday;
 
-    public User() {}
+    public User(){}
 
-    public User(String firstName, String lastName, int age) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String first_name, String last_name, int age) {
+        this.first_name = first_name;
+        this.last_name = last_name;
         // this.authToken = authToken;
         this.age = age;
         //this.birthday = birthday;
@@ -32,20 +36,20 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     /*public String getAuthToken() {
