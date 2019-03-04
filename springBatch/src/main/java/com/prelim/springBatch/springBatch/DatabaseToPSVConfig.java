@@ -33,7 +33,7 @@ public class DatabaseToPSVConfig {
 
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
-    
+
     @Bean
     public JdbcCursorItemReader<User> reader(DataSource dataSource){
         JdbcCursorItemReader<User> reader = new JdbcCursorItemReader<User>();
@@ -46,8 +46,6 @@ public class DatabaseToPSVConfig {
     }
 
     public class UserRowMapper implements RowMapper<User> {
-
-
 
         @Override
         public User mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -69,9 +67,9 @@ public class DatabaseToPSVConfig {
     @Bean
     public FlatFileItemWriter<User> writer() {
         FlatFileItemWriter<User> writer = new FlatFileItemWriter<User>();
-        writer.setResource(new ClassPathResource("users.psv"));
+        writer.setResource(new ClassPathResource("data/users.psv"));
         writer.setLineAggregator(new DelimitedLineAggregator<User>() {{
-            setDelimiter(",");
+            setDelimiter("|");
             setFieldExtractor(new BeanWrapperFieldExtractor<User>() {{
                 setNames(new String[]{"id", "first_name", "last_name", "age"});
             }});
