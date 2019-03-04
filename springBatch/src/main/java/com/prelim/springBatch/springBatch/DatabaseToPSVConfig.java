@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.jdbc.core.RowMapper;
 
 
@@ -35,7 +36,7 @@ public class DatabaseToPSVConfig {
     private StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public JdbcCursorItemReader<User> reader(DataSource dataSource){
+    public JdbcCursorItemReader<User> reader(DataSource dataSource) throws SQLException {
         JdbcCursorItemReader<User> reader = new JdbcCursorItemReader<User>();
         reader.setDataSource(dataSource);
         reader.setSql("SELECT id, first_name, last_name, age FROM user");
@@ -67,7 +68,7 @@ public class DatabaseToPSVConfig {
     @Bean
     public FlatFileItemWriter<User> writer() {
         FlatFileItemWriter<User> writer = new FlatFileItemWriter<User>();
-        writer.setResource(new ClassPathResource("data/users.psv"));
+        writer.setResource(new FileSystemResource("C:\\Users\\tiaerra.sanders\\Documents\\Projects\\Spring_Batch\\springBatch\\src\\main\\resources\\data\\users.psv"));
         writer.setLineAggregator(new DelimitedLineAggregator<User>() {{
             setDelimiter("|");
             setFieldExtractor(new BeanWrapperFieldExtractor<User>() {{
@@ -80,19 +81,19 @@ public class DatabaseToPSVConfig {
     }
 
     @Bean
-    public Step step1(DataSource dataSource) {
+    public Step step1() throws SQLException {
         return stepBuilderFactory.get("step1").<User, User> chunk(10)
-                .reader(reader(dataSource))
+                .reader(reader(null))
                 .processor(processor())
                 .writer(writer())
                 .build();
     }
 
     @Bean
-    public Job exportUserJob(DataSource dataSource) {
+    public Job exportUserJob() throws SQLException {
         return jobBuilderFactory.get("exportUserJob")
                 .incrementer(new RunIdIncrementer())
-                .flow(step1(dataSource))
+                .flow(step1())
                 .end()
                 .build();
     }
